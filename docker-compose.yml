@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  engine:
+    build: ./engine
+    container_name: soc-engine
+    ports:
+      - "8000:8000"
+    networks:
+      - soc-net
+
+  dashboard:
+    build: ./dashboard
+    container_name: soc-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://engine:8000
+    depends_on:
+      - engine
+    networks:
+      - soc-net
+
+  generator:
+    build: ./generator
+    container_name: soc-generator
+    environment:
+      - API_URL=http://engine:8000/alerts
+    depends_on:
+      - engine
+    networks:
+      - soc-net
+
+networks:
+  soc-net:
+    driver: bridge

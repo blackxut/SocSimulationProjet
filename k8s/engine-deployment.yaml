@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: engine-deployment
+  labels:
+    app: soc-engine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soc-engine
+  template:
+    metadata:
+      labels:
+        app: soc-engine
+    spec:
+      containers:
+      - name: engine
+        image: soc-simulation-project-engine:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000

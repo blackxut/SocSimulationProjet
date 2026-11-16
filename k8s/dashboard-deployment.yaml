@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-deployment
+  labels:
+    app: soc-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soc-dashboard
+  template:
+    metadata:
+      labels:
+        app: soc-dashboard
+    spec:
+      containers:
+      - name: dashboard
+        image: soc-simulation-project-dashboard:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8501
+        env:
+        - name: API_URL
+          value: "http://engine-service:8000"
